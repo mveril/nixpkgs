@@ -1,6 +1,7 @@
 {
   buildPythonPackage,
   lib,
+  stdenv,
   fetchFromGitHub,
 
   # build-sysetm
@@ -117,6 +118,12 @@ buildPythonPackage (finalAttrs: {
     "test_sacasscf_grad"
     "test_sparse_dot"
     "test_set_param_named"
+  ]
+  ++ lib.optionals (stdenv.hostPlatform.isLinux && stdenv.hostPlatform.isAarch64) [
+    # XCFun produces different numerical results on aarch64-linux.
+    "test_xcfun_gga_deriv3"
+    "test_vs_libxc_rks"
+    "test_vs_libxc_uks"
   ];
 
   disabledTestPaths = [
